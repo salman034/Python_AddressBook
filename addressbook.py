@@ -51,5 +51,12 @@ if __name__ == "__main__":
                     index = contact_list.index(i)
                     contact_list[index] = [f_name, l_name, address, city, state, pincode, email, mobile_number]
             print(contact_list)
+        elif user_input == 3:
+            f_name = input("Enter first name: ")
+            l_name = input("Enter last name: ")
+            for i in contact_list:
+                if f_name == i[0] and l_name == i[1]:
+                    contact_list.remove(i)
+            print(contact_list)
         elif user_input == 5:
             sys.exit()
