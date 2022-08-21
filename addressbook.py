@@ -20,28 +20,26 @@ def add(name):
     temp = addressbook.get(name)
     f_name = input("Enter first name: ")
     l_name = input("Enter last name: ")
+    address = input("Enter the address: ")
+    city = input("Enter the city: ")
+    state = input("Enter the state: ")
+    pincode = input("Enter the pin code: ")
+    email = input("Enter email id: ")
+    mobile_number = input("Enter mobile number: ")
+    temp1 = []
     if temp:
+        for i in addressbook.get(name):
+            temp1.append(i)
         for i in temp:
-            if f_name == i[0] or l_name == i[1]:
+            if email == i[6] or mobile_number == i[7]:
                 print("user name already exist")
             else:
-                address = input("Enter the address: ")
-                city = input("Enter the city: ")
-                state = input("Enter the state: ")
-                pincode = input("Enter the pin code: ")
-                email = input("Enter email id: ")
-                mobile_number = input("Enter mobile number: ")
                 result = Contact(f_name, l_name, address, city, state, pincode, email, mobile_number)
-                local.append(result.details)
-                addressbook[name] = local
-                print("Contact added successfully")
+                temp1.append(result.details)
+                temp1.sort()
+                addressbook[name] = temp1
+                print("Contact Added Successfully")
     else:
-        address = input("Enter the address: ")
-        city = input("Enter the city: ")
-        state = input("Enter the state: ")
-        pincode = input("Enter the pin code: ")
-        email = input("Enter email id: ")
-        mobile_number = input("Enter mobile number: ")
         result = Contact(f_name, l_name, address, city, state, pincode, email, mobile_number)
         local.append(result.details)
         addressbook[name] = local
@@ -49,8 +47,8 @@ def add(name):
 
 
 def edit(name):
-    f_name = input("Enter first name: ")
-    l_name = input("Enter last name: ")
+    f_name = input("Enter First Name: ")
+    l_name = input("Enter Last Name: ")
     contact_list = addressbook.get(name)
     for i in contact_list:
         if f_name == i[0] and l_name == i[1]:
@@ -72,16 +70,16 @@ def book_entry(name):
     print(name)
     while True:
         user_input = int(
-            input("Enter your choice to continue.\n1:Add the contact\n2:Edit the contact\n3:Delete the contact\n4:Display"
-                  "\n5:Return to main menu: "))
+            input("Enter your choice to continue..\n1:Add the Contact\n2:Edit the Contact\n3:Delete the Contact\n4:Display"
+                  "\n5:Return to Main Menu: "))
         if user_input == 1:
             add(name)
         elif user_input == 2:
             edit(name)
             print("Contact edited successfully")
         elif user_input == 3:
-            f_name = input("Enter first name: ")
-            l_name = input("Enter last name: ")
+            f_name = input("Enter First Name: ")
+            l_name = input("Enter Last Name: ")
             temp = addressbook.get(name)
             for i in temp:
                 if f_name == i[0] and l_name == i[1]:
@@ -99,6 +97,7 @@ def search_by_city(list, name):
         if i[3] == name:
             temp.append(i)
     print(temp)
+    print(f"number of person in {name} is: ", len(temp))
 
 
 def search_by_state(list, name):
@@ -107,14 +106,21 @@ def search_by_state(list, name):
         if i[4] == name:
             temp.append(i)
     print(temp)
+    print(f"number of person in {name} is: ", len(temp))
+
+
+def sort_by_city(list):
+    list.sort()
+    print(list)
 
 
 def main_menu():
     while True:
-        menu = int(input("Enter your choice to continue.\n1 : Create New Books\n2 : Access the existing Address Book\n"
-                         "3 : Display All Books\n4 : Search person by City\n5 : Search person by State\n6 : Exit: "))
+        menu = int(input("Enter Your Choice to Continue..\n1 : Create NewBook\n2 : Access the existing Address Book\n"
+                         "3 : Display all Books\n4 : Search Person by City\n5 : Search Person by State\n6 : Sort by City"
+                         "\n7 : Sort by State\n8 : Sort by Pincode\n9 : Exit: "))
         if menu == 1:
-            book_name = input("Enter name of the book: ")
+            book_name = input("Enter Name of the Book: ")
             if addressbook:
                 for i in addressbook:
                     if i == book_name:
@@ -130,7 +136,7 @@ def main_menu():
         elif menu == 3:
             print(addressbook)
         elif menu == 4:
-            city_name = input("Enter name of the city: ")
+            city_name = input("Enter Name of the city: ")
             temp = []
             for j in addressbook.keys():
                 for i in addressbook.get(j):
@@ -144,10 +150,31 @@ def main_menu():
                     temp.append(i)
             search_by_state(temp, state_name)
         elif menu == 6:
+            temp = []
+            for j in addressbook.keys():
+                for i in addressbook.get(j):
+                    temp.append(i)
+            temp.sort(key=lambda x: x[3])
+            print(temp)
+        elif menu == 7:
+            temp = []
+            for j in addressbook.keys():
+                for i in addressbook.get(j):
+                    temp.append(i)
+            temp.sort(key=lambda x: x[4])
+            print(temp)
+        elif menu == 8:
+            temp = []
+            for j in addressbook.keys():
+                for i in addressbook.get(j):
+                    temp.append(i)
+            temp.sort(key=lambda x: x[5])
+            print(temp)
+        elif menu == 9:
             sys.exit()
 
 
 if __name__ == "__main__":
-    print("....Welcome to Address Book....")
+    print("|...Welcome to Address Book...|")
     addressbook = {}
     main_menu()
